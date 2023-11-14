@@ -87,17 +87,18 @@ uint32_t resetPeriod = 250;
 uint16_t replyDelayTimeUS = 3000;
 
 device_configuration_t DEFAULT_CONFIG = {
-    false,
-    true,
-    false,
-    true,
-    true,
+    false,                              //extendedFrameLength
+    true,                               //receiverAutoReenable
+    false,                              //smartPower
+    true,                               //frameCheck
+    true,                               //nlos
     SFDMode::STANDARD_SFD,
     Channel::CHANNEL_2,
     DataRate::RATE_110KBPS,
     PulseFrequency::FREQ_64MHZ,
-    PreambleLength::LEN_1024,
-    PreambleCode::CODE_3};
+    PreambleLength::LEN_2048,
+    PreambleCode::CODE_9
+    };
 
 interrupt_configuration_t DEFAULT_INTERRUPT_CONFIG = {
     true,
