@@ -109,7 +109,7 @@ device_configuration_t DEFAULT_CONFIG = {
     DataRate::RATE_110KBPS,
     PulseFrequency::FREQ_64MHZ,
     PreambleLength::LEN_2048,
-    PreambleCode::CODE_9
+    PreambleCode::CODE_10
 };
 
 interrupt_configuration_t DEFAULT_INTERRUPT_CONFIG = {
@@ -209,11 +209,17 @@ void receiver() {
 }
 
 void loop() {
+    uwb_ranging();
+}
+
+
+void uwb_ranging()
+{
     int32_t curMillis = millis();
     if (!sentAck && !receivedAck) {
         // check if inactive
         if (curMillis - lastActivity > resetPeriod) {
-            resetInactive();
+        resetInactive();
         }
         return;
     }
@@ -231,6 +237,11 @@ void loop() {
         receivedAck = false;
         // get message and parse
         DW1000Ng::getReceivedData(data, LEN_DATA);
+        // for (int i = 0; i < 16; i++)
+        // {
+        //     Serial.print(data[i]); Serial.print(" ");
+        // }
+        // Serial.println();
         byte msgId = data[0];
         if (msgId != expectedMsgId) {
             // unexpected message, start over again (except if already POLL)
@@ -260,13 +271,14 @@ void loop() {
                                                             timeRangeReceived);
                 /* Apply simple bias correction */
                 distance = DW1000NgRanging::correctRange(distance);
-                if (abs(distance - last_distance) > 0.2)
-                {
-                    String rangeString = ""; rangeString += distance;
-                    Serial.println(rangeString);
-                    last_distance = distance;
-                }
-                
+                // if (abs(distance - last_distance) > 0.2)
+                // {
+                //     String rangeString = ""; rangeString += distance;
+                //     Serial.println(rangeString);
+                //     last_distance = distance;
+                // }
+                String rangeString = ""; rangeString += distance;
+                Serial.println(rangeString);
                 // String rangeString = "Range: "; rangeString += distance; rangeString += " m";
                 // rangeString += "\t RX power: "; rangeString += DW1000Ng::getReceivePower(); rangeString += " dBm";
                 // rangeString += "\t Sampling: "; rangeString += samplingRate; rangeString += " Hz";
@@ -276,12 +288,12 @@ void loop() {
                 //Serial.print("Receive quality: "); Serial.println(DW1000Ng::getReceiveQuality());
                 // update sampling rate (each second)
                 transmitRangeReport(distance * DISTANCE_OF_RADIO_INV);
-                successRangingCount++;
-                if (curMillis - rangingCountPeriod > 1000) {
-                    samplingRate = (1000.0f * successRangingCount) / (curMillis - rangingCountPeriod);
-                    rangingCountPeriod = curMillis;
-                    successRangingCount = 0;
-                }
+                // successRangingCount++;
+                // if (curMillis - rangingCountPeriod > 1000) {
+                //     samplingRate = (1000.0f * successRangingCount) / (curMillis - rangingCountPeriod);
+                //     rangingCountPeriod = curMillis;
+                //     successRangingCount = 0;
+                // }
             }
             else {
                 transmitRangeFailed();
@@ -291,4 +303,3 @@ void loop() {
         }
     }
 }
-

@@ -97,7 +97,7 @@ device_configuration_t DEFAULT_CONFIG = {
     DataRate::RATE_110KBPS,
     PulseFrequency::FREQ_64MHZ,
     PreambleLength::LEN_2048,
-    PreambleCode::CODE_9
+    PreambleCode::CODE_10
     };
 
 interrupt_configuration_t DEFAULT_INTERRUPT_CONFIG = {
