@@ -57,9 +57,15 @@
 #include <DW1000NgRanging.hpp>
 
 // connection pins
-const uint8_t PIN_RST = 9; // reset pin
-const uint8_t PIN_IRQ = 2; // irq pin
-const uint8_t PIN_SS = SS; // spi select pin
+// const uint8_t PIN_RST = 9; // reset pin
+// const uint8_t PIN_IRQ = 3; // irq pin
+// const uint8_t PIN_SS = SS; // spi select pin
+
+// wemos D1 mini pro board connection pins
+const uint8_t PIN_RST = D1; // reset pin
+const uint8_t PIN_IRQ = D2; // irq pin
+const uint8_t PIN_SS = D8; // spi select pin
+
 
 // messages used in the ranging protocol
 // TODO replace by enum
@@ -207,9 +213,28 @@ void receiver() {
     // so we don't need to restart the receiver manually
     DW1000Ng::startReceive();
 }
+unsigned long startTime; // Variable to store the start time
+bool running = false; // Flag to indicate if the function is running
+
+void executeForDuration(void (*func)(), unsigned long duration) {
+  unsigned long currentTime;
+  startTime = millis(); // Record the start time
+  running = true;
+
+  while (running) {
+    currentTime = millis(); // Get the current time
+    if (currentTime - startTime >= duration) {
+      running = false; // Stop the function after the specified duration
+    } else {
+      (*func)(); // Execute the provided function
+    }
+  }
+}
 
 void loop() {
-    uwb_ranging();
+
+    executeForDuration(uwb_ranging, 500);
+    // delay(1000);
 }
 
 
@@ -219,7 +244,7 @@ void uwb_ranging()
     if (!sentAck && !receivedAck) {
         // check if inactive
         if (curMillis - lastActivity > resetPeriod) {
-        resetInactive();
+            resetInactive();
         }
         return;
     }
