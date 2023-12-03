@@ -51,9 +51,14 @@
 
 // connection pins
 #if defined(ESP8266)
-const uint8_t PIN_RST = 5; // reset pin
-const uint8_t PIN_IRQ = 4; // irq pin
-const uint8_t PIN_SS = 15; // spi select pin
+//wemos d1 mini pro connections
+const uint8_t PIN_RST = D1; // reset pin
+const uint8_t PIN_IRQ = D2; // irq pin
+const uint8_t PIN_SS = D8; // spi select pin
+
+// const uint8_t PIN_RST = 5; // reset pin
+// const uint8_t PIN_IRQ = 4; // irq pin
+// const uint8_t PIN_SS = 15; // spi select pin
 #else
 const uint8_t PIN_RST = 9; // reset pin
 const uint8_t PIN_IRQ = 2; // irq pin
@@ -63,7 +68,7 @@ const uint8_t PIN_SS = SS; // spi select pin
 
 void setup() {
   // DEBUG monitoring
-  Serial.begin(9600);
+  Serial.begin(115200);
   // initialize the driver
   DW1000Ng::initialize(PIN_SS, PIN_IRQ, PIN_RST);
   Serial.println(F("DW1000Ng initialized ..."));

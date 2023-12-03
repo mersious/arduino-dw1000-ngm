@@ -57,9 +57,14 @@
 #include <DW1000NgConstants.hpp>
 
 // connection pins
-const uint8_t PIN_RST = 9; // reset pin
-const uint8_t PIN_IRQ = 2; // irq pin
-const uint8_t PIN_SS = SS; // spi select pin
+// const uint8_t PIN_RST = 9; // reset pin
+// const uint8_t PIN_IRQ = 2; // irq pin
+// const uint8_t PIN_SS = SS; // spi select pin
+
+// wemos D1 mini pro board connection pins
+const uint8_t PIN_RST = D1; // reset pin
+const uint8_t PIN_IRQ = D2; // irq pin
+const uint8_t PIN_SS = D8; // spi select pin
 
 // messages used in the ranging protocol
 // TODO replace by enum
