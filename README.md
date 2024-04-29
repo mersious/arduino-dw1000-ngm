@@ -14,7 +14,11 @@
 
 Status
 ------------
-:warning: We are archiving the repo as we can't support it anymore and we are not currently working with dw1000 hardware, feel free to create your own fork if you intend to support the project, we will be happy to add a link on this project. Thank you everyone for the support you gave this project it was truly appreciated.
+Hello Everyone, This a new fork from dw1000-ng library. dw1000-ngm!
+2024 Edition
+
+Differences with dw1000-ng
+---
 
 Differences with thotro/arduino-dw1000
 ------------
